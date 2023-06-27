@@ -26,14 +26,30 @@ let categories =document.querySelector('#categories');
 categories.onchange = function(e)
 {
     let category = e.currentTarget.value
-    fetch('https://api.chucknorris.io/jokes/random?category={'+category+'}',{
-        method:"GET",
-        node :'cors',
-        headers:{}
-    })
+    console.log("https://api.chucknorris.io/jokes/random?category="+category);
+    
+    fetch("https://api.chucknorris.io/jokes/random?category="+category)
+   
     .then((response=>response.json()))
     .then((data)=>{
-        console.log(data);
+        localStorage.setItem("list", data.value);
+        let div = document.createElement('div');
+        div.innerHTML=data.value;
+        document.querySelector('body').appendChild(div)
     })
   
+}
+let list = localStorage.getItem('list');
+console.log(list)
+if(list!=null){
+    let div = document.createElement('div');
+        div.innerHTML=list;
+        document.querySelector('body').appendChild(div)
+}
+
+
+
+document.querySelector('#reset').onclick = function(){
+    localStorage.removeItem('list');
+
 }
